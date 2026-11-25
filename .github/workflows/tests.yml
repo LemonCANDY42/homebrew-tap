@@ -1,0 +1,23 @@
+name: tests
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  formula:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      # taps this repository, so the formula below is the one in this commit
+      - uses: Homebrew/actions/setup-homebrew@main
+      - name: Install from source
+        run: brew install --build-from-source --yes lemoncandy42/tap/compactlab
+      - name: Test
+        run: brew test lemoncandy42/tap/compactlab
+      - name: Audit
+        run: brew audit --strict --online lemoncandy42/tap/compactlab
