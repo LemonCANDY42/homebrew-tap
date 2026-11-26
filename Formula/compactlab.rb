@@ -3,8 +3,8 @@ class Compactlab < Formula
 
   desc "Recommend auto-compact thresholds from your own coding-agent logs"
   homepage "https://github.com/LemonCANDY42/compactlab"
-  url "https://github.com/LemonCANDY42/compactlab/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "3434e114bae2abf8da5a71800c20ed47eb8f2025141e9e7bb27f4d166476a048"
+  url "https://github.com/LemonCANDY42/compactlab/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "e62f553a0206a8fbcd58f95a69e5eba160f49bcd4f70e57e09965a1a50d44d03"
   license "MIT"
   head "https://github.com/LemonCANDY42/compactlab.git", branch: "main"
 
@@ -20,6 +20,8 @@ class Compactlab < Formula
     ENV["HOME"] = testpath # the demo reads bundled synthetic data only; keep any state out of the real home
     system bin/"compactlab", "demo", "--out", testpath/"demo", "--no-open", "--lang", "en"
     assert_path_exists testpath/"demo/report.html"
-    assert_match "\"kind\":\"hello\"", shell_output("#{bin}/compactlab engine hello")
+    hello = shell_output("#{bin}/compactlab engine hello")
+    assert_match "\"kind\":\"hello\"", hello
+    assert_match "\"plan\"", hello # the menu bar app (compactlab-app) changes settings through `engine plan`/`apply`
   end
 end
