@@ -21,3 +21,13 @@ jobs:
         run: brew test lemoncandy42/tap/compactlab
       - name: Audit
         run: brew audit --strict --online lemoncandy42/tap/compactlab
+  cask:
+    runs-on: macos-latest
+    steps:
+      - uses: Homebrew/actions/setup-homebrew@main
+      - name: Install the app
+        run: brew install --cask --yes lemoncandy42/tap/compactlab-app
+      - name: Gatekeeper accepts it
+        run: spctl --assess --verbose /Applications/compactlab.app
+      - name: Audit
+        run: brew audit --cask --strict --online lemoncandy42/tap/compactlab-app
